@@ -7,11 +7,16 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "postinstall": "mkdir -p public/mediapipe && cp -rn node_modules/@mediapipe/hands public/mediapipe/ && cp -rn node_modules/@mediapipe/drawing_utils public/mediapipe/"
   },
   "dependencies": {
+    "@mediapipe/camera_utils": "^0.3.1675466862",
+    "@mediapipe/drawing_utils": "^0.3.1675466124",
+    "@mediapipe/hands": "^0.4.1675469240",
     "react": "^19.2.6",
-    "react-dom": "^19.2.6"
+    "react-dom": "^19.2.6",
+    "react-router-dom": "^7.6.2"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
@@ -25,6 +30,7 @@
     "globals": "^17.6.0",
     "typescript": "~6.0.2",
     "typescript-eslint": "^8.59.2",
-    "vite": "^8.0.12"
+    "vite": "^8.0.12",
+    "vite-plugin-static-copy": "^4.1.1"
   }
 }
