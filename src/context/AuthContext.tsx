@@ -8,6 +8,7 @@ import {
   type ReactNode,
 } from "react";
 import * as authApi from "../api/auth";
+import { warmApi } from "../api/warmup";
 import { TOKEN_STORAGE_KEY } from "../config/api";
 import type { LoginPayload, RegisterPayload, User } from "../types/auth";
 
@@ -30,6 +31,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     let cancelled = false;
+
+    void warmApi();
 
     const bootstrap = async () => {
       const stored = localStorage.getItem(TOKEN_STORAGE_KEY);

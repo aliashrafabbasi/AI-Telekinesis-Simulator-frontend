@@ -1,5 +1,6 @@
-import { type FormEvent, useState } from "react";
+import { type FormEvent, useEffect, useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
+import { warmApi } from "../api/warmup";
 import { AuthLoadingShell } from "../components/AuthLoadingShell";
 import { useAuth } from "../context/AuthContext";
 import "../auth.css";
@@ -13,6 +14,10 @@ export function SignupPage() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
+
+  useEffect(() => {
+    void warmApi();
+  }, []);
 
   if (isLoading) {
     return <AuthLoadingShell message="Restoring session…" />;
@@ -46,7 +51,12 @@ export function SignupPage() {
       });
       navigate("/game", { replace: true });
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Registration failed");
+      const message = err instanceof Error ? err.message : "Registration failed";
+      setError(
+        message === "Internal server error"
+          ? "Server is still starting up. Please try again in a moment."
+          : message,
+      );
     } finally {
       setSubmitting(false);
     }
